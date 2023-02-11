@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane id="lblMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="1037.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.casinelli.inventoryproject.MainFormController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff07" height="287.0" layoutX="58.0" layoutY="57.0" stroke="BLACK" strokeType="INSIDE" width="428.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff07" height="287.0" layoutX="563.0" layoutY="57.0" stroke="BLACK" strokeType="INSIDE" width="428.0" />
+      <Label fx:id="lblMain" layoutX="28.0" layoutY="32.0" style="-fx-font-weight: 900;" text="Inventory Management System" />
+      <TableView fx:id="tblvwMainParts" layoutX="66.0" layoutY="100.0" prefHeight="200.0" prefWidth="413.0">
+        <columns>
+          <TableColumn fx:id="colPartID" editable="false" prefWidth="53.0" resizable="false" text="Part ID" />
+          <TableColumn fx:id="colPartName" editable="false" prefWidth="165.0" resizable="false" text="Part Name" />
+            <TableColumn fx:id="colPartInv" editable="false" prefWidth="92.0" resizable="false" text="Inventory Level" />
+            <TableColumn fx:id="colPartPrice" editable="false" prefWidth="102.0" resizable="false" text="Price per Unit" />
+        </columns>
+      </TableView>
+      <TableView fx:id="tblvwMainProd" layoutX="573.0" layoutY="100.0" prefHeight="200.0" prefWidth="413.0">
+        <columns>
+          <TableColumn fx:id="colProdID" editable="false" prefWidth="70.0" resizable="false" text="Product ID" />
+          <TableColumn fx:id="colProdName" editable="false" prefWidth="161.0" resizable="false" text="Product Name" />
+            <TableColumn fx:id="colProdInv" editable="false" prefWidth="93.0" resizable="false" text="Inventory Level" />
+            <TableColumn fx:id="colProdPrice" editable="false" prefWidth="88.0" resizable="false" text="Price per Unit" />
+        </columns>
+      </TableView>
+      <TextField fx:id="tfMainPartSearch" layoutX="292.0" layoutY="68.0" onAction="#searchPartsMain" promptText="Search by Prod ID or Name" />
+      <TextField fx:id="tfMainProdSearch" layoutX="793.0" layoutY="68.0" onAction="#searchProdMain" promptText="Search by Prod ID or Name" />
+      <Label layoutX="98.0" layoutY="72.0" text="Parts" />
+      <Label layoutX="615.0" layoutY="72.0" text="Products" />
+      <Button fx:id="btnAddPart" layoutX="279.0" layoutY="307.0" mnemonicParsing="false" onAction="#addNewPart" text="Add" />
+      <Button fx:id="btnModPart" layoutX="335.0" layoutY="307.0" mnemonicParsing="false" onAction="#modifySelectedPart" text="Modify" />
+      <Button fx:id="btnDeletePart" layoutX="403.0" layoutY="307.0" mnemonicParsing="false" onAction="#deleteSelectedPart" text="Delete" />
+      <Button fx:id="btnAddProd" layoutX="792.0" layoutY="307.0" mnemonicParsing="false" onAction="#addNewProduct" text="Add" />
+      <Button fx:id="btnModProd" layoutX="844.0" layoutY="307.0" mnemonicParsing="false" onAction="#modifySelectedProduct" text="Modify" />
+      <Button fx:id="btnDeleteProd" layoutX="910.0" layoutY="307.0" mnemonicParsing="false" onAction="#deleteSelectedProduct" text="Delete" />
+      <Button fx:id="btnExit" layoutX="921.0" layoutY="358.0" mnemonicParsing="false" onAction="#exitProgram" text="Exit" />
+   </children>
+</AnchorPane>

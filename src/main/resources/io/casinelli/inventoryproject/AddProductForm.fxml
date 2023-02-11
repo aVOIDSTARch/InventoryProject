@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="563.0" prefWidth="845.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.casinelli.inventoryproject.AddProductFormController">
+    <children>
+        <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#1f93ff00" height="544.0" layoutX="9.0" layoutY="10.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" width="828.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="10.0" />
+        <Label fx:id="lblModProduct" layoutX="33.0" layoutY="31.0" style="-fx-font-weight: 900;" text="Add Product" />
+        <TextField fx:id="tfPartSearch" layoutX="645.0" layoutY="19.0" onAction="#searchPartsInProduct" prefHeight="25.0" prefWidth="179.0" promptText="Search by Part ID or Name" />
+        <TableView fx:id="tblvPartsSearch" layoutX="348.0" layoutY="55.0" prefHeight="169.0" prefWidth="477.0">
+            <columns>
+                <TableColumn fx:id="colPartIDSearch" editable="false" prefWidth="52.0" text="ID" />
+                <TableColumn fx:id="colPartNameSearch" editable="false" prefWidth="173.0" text="Part Name" />
+                <TableColumn fx:id="colPartInvSearch" editable="false" minWidth="2.0" prefWidth="137.0" text="Inventory Level" />
+                <TableColumn fx:id="colPriceSearch" editable="false" minWidth="0.0" prefWidth="114.0" text="Price per Unit" />
+            </columns>
+        </TableView>
+        <TableView fx:id="tblvPartsList" layoutX="348.0" layoutY="274.0" prefHeight="169.0" prefWidth="477.0">
+            <columns>
+                <TableColumn fx:id="colAssocPartID" prefWidth="56.0" text="ID" />
+                <TableColumn fx:id="colAssocPartName" prefWidth="172.0" text="Part Name" />
+                <TableColumn fx:id="colAssocPartInv" minWidth="0.0" prefWidth="131.0" style="width: 25%;" text="Inventory Level" />
+                <TableColumn fx:id="colAssocPartPrice" minWidth="0.0" prefWidth="117.0" text="Price per Unit" />
+            </columns>
+        </TableView>
+        <Button fx:id="btnAddPartToProduct" layoutX="761.0" layoutY="237.0" mnemonicParsing="false" onAction="#addPartToProduct" text="Add" />
+        <Button fx:id="btnRemoveAssociatedPart" layoutX="648.0" layoutY="456.0" mnemonicParsing="false" onAction="#removeAssociatedPart" prefHeight="25.0" prefWidth="154.0" text="Remove Associated Part" />
+        <Button fx:id="btnCancelModify" layoutX="745.0" layoutY="492.0" mnemonicParsing="false" onAction="#cancelProductUpdate" text="Cancel" />
+        <Button fx:id="btnSaveUpdatedProduct" layoutX="647.0" layoutY="492.0" mnemonicParsing="false" onAction="#saveProductUpdate" text="Save" />
+        <TextField fx:id="tfAddPartID" editable="false" layoutX="131.0" layoutY="149.0" prefHeight="25.0" prefWidth="148.0" />
+        <TextField fx:id="tfAddPartName" layoutX="131.0" layoutY="190.0" prefHeight="25.0" prefWidth="75.0" />
+        <TextField fx:id="tfAddPartInv" layoutX="131.0" layoutY="234.0" prefHeight="25.0" prefWidth="75.0" />
+        <TextField fx:id="tfAddPartPrice" layoutX="130.0" layoutY="278.0" prefHeight="25.0" prefWidth="148.0" />
+        <TextField fx:id="tfAddPartMax" layoutX="131.0" layoutY="326.0" prefHeight="25.0" prefWidth="63.0" />
+        <TextField fx:id="tfAddPartMin" layoutX="252.0" layoutY="326.0" prefHeight="25.0" prefWidth="69.0" />
+        <Label fx:id="lblProdID" layoutX="84.0" layoutY="153.0" text="ID" />
+        <Label fx:id="lblProductName" layoutX="75.0" layoutY="194.0" text="Name" />
+        <Label fx:id="lblInventory" layoutX="66.0" layoutY="241.0" text="Inventory" />
+        <Label fx:id="lblProductPrice" layoutX="75.0" layoutY="282.0" text="Price" />
+        <Label fx:id="lblProductMax" layoutX="75.0" layoutY="330.0" text="Max" />
+        <Label fx:id="lblProductMin" layoutX="213.0" layoutY="330.0" text="Min" />
+    </children>
+</AnchorPane>
