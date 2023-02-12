@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="698e4fdc-dccc-4af9-8e09-1df7d9c4a5cc" name="Changes" comment="Navigation functional">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/AddPartFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/AddPartFormController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/MainFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/MainFormController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/ModifyPartFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/ModifyPartFormController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/io/casinelli/inventoryproject/AddPartForm.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/io/casinelli/inventoryproject/AddPartForm.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/io/casinelli/inventoryproject/ModifyPartForm.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/io/casinelli/inventoryproject/ModifyPartForm.fxml" afterDir="false" />
-    </list>
+    <list default="true" id="698e4fdc-dccc-4af9-8e09-1df7d9c4a5cc" name="Changes" comment="Search Functional" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -112,6 +104,14 @@
       <option name="presentableId" value="Default" />
       <updated>1674401871220</updated>
     </task>
+    <task id="LOCAL-00001" summary="Search Functional">
+      <created>1676218498247</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1676218498247</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -128,7 +128,8 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Navigation functional" />
-    <option name="LAST_COMMIT_MESSAGE" value="Navigation functional" />
+    <MESSAGE value="Search Functional" />
+    <option name="LAST_COMMIT_MESSAGE" value="Search Functional" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
