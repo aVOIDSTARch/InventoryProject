@@ -52,7 +52,7 @@ public class Main extends Application {
         theseParts.addAll(inhouse1, inhouse2, inhouse3);
         //Create product
         Product aProduct = new Product(theseParts, Inventory.getNextProductID(),
-                "barebones kit", 599.99, 3, 1, 5);
+                "barebones kit", 1999.99, 3, 1, 5);
         //Add product to inventory
         Inventory.addProduct(aProduct);
 

@@ -1,7 +1,10 @@
 package io.casinelli.inventoryproject;
 
+import io.casinelli.inventoryproject.Model.Inventory;
 import io.casinelli.inventoryproject.Model.Part;
 import io.casinelli.inventoryproject.Model.Product;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.*;
 
 import java.io.IOException;
@@ -23,14 +27,28 @@ public class MainFormController implements Initializable {
     Parent scene;
 
     /**
+     * Initialize the scene interface for MainForm.fxml
      * @param url
      * @param resourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Initialize parts tableview and associated columns
+        tblvwMainParts.setItems(Inventory.getAllParts());
+        colPartID.setCellValueFactory(new PropertyValueFactory<Part, Integer>("id"));
+        colPartName.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
+        colPartInv.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
+        colPartPrice.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
 
+        //Initialize products tableview and associated columns
+        tblvwMainProd.setItems(Inventory.getAllProducts());
+        colProdID.setCellValueFactory(new PropertyValueFactory<Product, Integer>("id"));
+        colProdName.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
+        colProdInv.setCellValueFactory(new PropertyValueFactory<Product, Integer>("stock"));
+        colProdPrice.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
     }
 
+    //All Buttons
     @FXML
     private Button btnExit;
     @FXML
@@ -46,29 +64,35 @@ public class MainFormController implements Initializable {
     @FXML
     private Button btnAddPart;
     @FXML
+    //Search TextFields
     private TextField tfMainProdSearch;
     @FXML
     private TextField tfMainPartSearch;
-    @FXML
-    private TableColumn<> colProdPrice;
-    @FXML
-    private TableColumn<> colProdInv;
-    @FXML
-    private TableColumn<> colProdName;
-    @FXML
-    private TableColumn<> colProdID;
+
+    //Product TableView and Associated Columns
     @FXML
     private TableView<Product> tblvwMainProd;
     @FXML
-    private TableColumn<> colPartPrice;
+    private TableColumn<Product, Double> colProdPrice;
     @FXML
-    private TableColumn<> colPartInv;
+    private TableColumn<Product, Integer> colProdInv;
     @FXML
-    private TableColumn<> colPartName;
+    private TableColumn<Product, String> colProdName;
     @FXML
-    private TableColumn<> colPartID;
+    private TableColumn<Product, Integer> colProdID;
+
+    //Parts TableView and Associated Columns
     @FXML
     private TableView<Part> tblvwMainParts;
+    @FXML
+    private TableColumn<Part, Double> colPartPrice;
+    @FXML
+    private TableColumn<Part, Integer> colPartInv;
+    @FXML
+    private TableColumn<Part, String> colPartName;
+    @FXML
+    private TableColumn<Part, Integer> colPartID;
+
 
     @FXML
     private void exitProgram(ActionEvent actionEvent) {
@@ -102,7 +126,7 @@ public class MainFormController implements Initializable {
     @FXML
     private void modifySelectedPart(ActionEvent actionEvent) throws IOException {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
-        scene   = FXMLLoader.load(getClass().getResource("ModifyProductForm.fxml"));
+        scene   = FXMLLoader.load(getClass().getResource("ModifyPartForm.fxml"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
@@ -116,11 +140,64 @@ public class MainFormController implements Initializable {
     }
 
     @FXML
-    private void searchProdMain(ActionEvent actionEvent) {
+    private boolean searchProdMain(ActionEvent actionEvent) {
+        ObservableList<Product> resultsList = FXCollections.observableArrayList();
+        String searchText = tfMainProdSearch.getText();
+        //Add all matches of the string and name
+        for(Product prod : Inventory.getAllProducts()){
+            if (prod.getName().contains(searchText) ) {
+                resultsList.add(prod);
+            }
+        }
+        //Add all matches of a number and an ID that are not already in the list
+        for (Product prod : Inventory.getAllProducts()) {
+            if (resultsList.contains(prod)) {
+                continue;
+            } else if (String.valueOf(prod.getId()).contains(searchText)) {
+                resultsList.add(prod);
+            }
+        }
+        //Search returned no results
+        if (resultsList.isEmpty()) {
+            //AlertUser
+            //Assign Empty List to tableView
+            tblvwMainProd.setItems(resultsList);
+            return false;
+        }
+        //Search returned results
+        tblvwMainProd.setItems(resultsList);
+        return true;
+
     }
 
     @FXML
-    private void searchPartsMain(ActionEvent actionEvent) {
+    private boolean searchPartsMain(ActionEvent actionEvent) {
+        ObservableList<Part> resultsList = FXCollections.observableArrayList();
+        String searchText = tfMainPartSearch.getText();
+        //Add all matches of the string and name
+        for(Part part : Inventory.getAllParts()){
+            if (part.getName().contains(searchText) ) {
+                resultsList.add(part);
+            }
+        }
+        //Add all matches of a number and an ID that are not already in the list
+        for (Part part : Inventory.getAllParts()) {
+            if (resultsList.contains(part)) {
+                continue;
+            } else if (String.valueOf(part.getId()).contains(searchText)) {
+                resultsList.add(part);
+            }
+        }
+        //Search returned no results
+        if (resultsList.isEmpty()) {
+            //AlertUser
+            //Assign Empty List to tableView
+            tblvwMainParts.setItems(resultsList);
+            return false;
+        }
+        //Search returned results
+        tblvwMainParts.setItems(resultsList);
+        return true;
     }
 
 

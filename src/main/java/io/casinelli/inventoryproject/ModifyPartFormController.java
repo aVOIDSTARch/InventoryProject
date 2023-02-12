@@ -26,7 +26,8 @@ public class ModifyPartFormController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        rdoBtnInHouse.selectedProperty().set(true);
+        lblPartModSwitch.setText("Machine ID");
 
     }
 
@@ -74,5 +75,11 @@ public class ModifyPartFormController implements Initializable {
 
     @FXML
     private void switchLabelText(ActionEvent actionEvent) {
+        if (rdoBtnInHouse.isSelected()) {
+            lblPartModSwitch.setText("Machine ID");
+        }
+        else if (rdoBtnOutSourced.isSelected())
+            lblPartModSwitch.setText("Company Name");
     }
+
 }
