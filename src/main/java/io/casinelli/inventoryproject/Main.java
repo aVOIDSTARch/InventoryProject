@@ -6,8 +6,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 
@@ -23,6 +25,17 @@ public class Main extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.show();
+        stage.setOnCloseRequest(windowEvent -> {
+           Parent thisScene;
+            try {
+                thisScene = FXMLLoader.load(getClass().getResource("MainForm.fxml"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            stage.setScene(new Scene(thisScene));
+            stage.show();
+            windowEvent.consume();
+        });
     }
 
     public static void main(String[] args) {
@@ -61,5 +74,4 @@ public class Main extends Application {
 
         launch();
     }
-
 }

@@ -122,6 +122,12 @@ public class ModifyPartFormController implements Initializable {
                 index++;
                 if (part.getId() == replacementPart.getId()) {
                     Inventory.getAllParts().set(index, replacementPart);
+                    //switch back to MainForm scene after successfully modifying part
+                    try {
+                        cancelPartMod(actionEvent);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 }
                 ;
@@ -152,6 +158,7 @@ public class ModifyPartFormController implements Initializable {
         if (Integer.parseInt(tfPartModMin.getText()) >
                 Integer.parseInt(tfPartModMax.getText()) ){
             //alertUser
+            showAlertDialog(1);
             return null;
         }
         int id = Integer.parseInt(tfPartModID.getText());
@@ -169,6 +176,7 @@ public class ModifyPartFormController implements Initializable {
             inv = Integer.parseInt(tfPartModInv.getText());
         } catch(NumberFormatException nfe) {
             //alertUser
+            showAlertDialog(1);
             return null;
         }
         //Use radio button toggle to determine Part subclass
@@ -178,6 +186,7 @@ public class ModifyPartFormController implements Initializable {
                 return new InHouse(id, name, price, inv, min, max, machineID);
             }catch(NumberFormatException nfe) {
                 //Alert user of error
+                showAlertDialog(1);
                 return null;
             }
         }
@@ -186,4 +195,18 @@ public class ModifyPartFormController implements Initializable {
         }
     }
     //Alert Boxes
+    private void showAlertDialog(int alertType) {
+        //Create new alert
+        Alert anAlert = new Alert(Alert.AlertType.ERROR);
+        //Use switch statement to populate dialog box and display
+        switch (alertType) {
+            case 1:
+                anAlert.setTitle("Invalid Input Error");
+                anAlert.setHeaderText("Error while attempting to add new part!");
+                anAlert.setContentText("Please verify all inputs and resubmit new part.");
+                anAlert.showAndWait();
+                break;
+
+        }
+    }
 }

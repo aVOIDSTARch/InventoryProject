@@ -167,6 +167,11 @@ public class MainFormController implements Initializable {
 
     /**
      * Stores selected part and changes to teh ModifyPart scene
+     *
+     * RUNTIME ERROR - a run time error was corrected in this method.  The error
+     * was a NullPointerException, and it was corrected by ensuing the correct
+     * path to the FXML document resource was provided to the load method.
+     *
      * @param actionEvent Modify button in t parts controls clicked
      * @throws IOException the FXMLLoader load() function may fail
      */

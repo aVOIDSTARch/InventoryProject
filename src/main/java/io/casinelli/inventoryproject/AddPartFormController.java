@@ -90,10 +90,7 @@ public class AddPartFormController implements Initializable {
         int increaseCount = Inventory.getNextPartID();
         tfPartAddID.setText(String.valueOf(increaseCount));
         //return to main form scene
-        thisStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("MainForm.fxml"));
-        thisStage.setScene(new Scene(scene));
-        thisStage.show();
+        cancelPartAdd(actionEvent);
     }
 
     /**
@@ -135,6 +132,7 @@ public class AddPartFormController implements Initializable {
             inv = Integer.parseInt(tfPartAddInv.getText());
         } catch(NumberFormatException nfe) {
             //alertUser
+            showAlertDialog(1);
             return null;
         }
 
@@ -145,6 +143,7 @@ public class AddPartFormController implements Initializable {
                 return new InHouse(id, name, price, inv, min, max, machineID);
             }catch(NumberFormatException nfe) {
                 //Alert user of error
+                showAlertDialog(1);
                 return null;
             }
         }
@@ -159,23 +158,12 @@ public class AddPartFormController implements Initializable {
         //Use switch statement to populate dialog box and display
         switch (alertType) {
             case 1:
-                anAlert.setTitle("Selection Error");
-                anAlert.setHeaderText("Error while attempting to modify!");
-                anAlert.setContentText("Please select an item from the list above before clicking the Modify button.");
+                anAlert.setTitle("Invalid Input Error");
+                anAlert.setHeaderText("Error while attempting to add new part!");
+                anAlert.setContentText("Please verify all inputs and resubmit new part.");
                 anAlert.showAndWait();
                 break;
-            case 2:
-                anAlert.setTitle("Selection Error");
-                anAlert.setHeaderText("Error while attempting to delete!");
-                anAlert.setContentText("Please select an item from the list above before clicking the Delete button.");
-                anAlert.showAndWait();
-                break;
-            case 3:
-                anAlert.setTitle("Search Error");
-                anAlert.setHeaderText("Error while attempting a search!");
-                anAlert.setContentText("The search criteria yielded no results.");
-                anAlert.showAndWait();
-                break;
+
         }
     }
 }
