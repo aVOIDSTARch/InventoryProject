@@ -18,15 +18,27 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AddPartFormController implements Initializable {
+    /**
+     * Initializes the AddPartForm Controller
+     * @param url
+     * @param resourceBundle
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        tfPartAddID.setText(String.valueOf(Inventory.getNextPartID()));
+        rdoBtnInHouse.selectedProperty().set(true);
+        lblPartAddSwitch.setText("Machine ID");
+    }
 
 
     Stage thisStage;
     Parent scene;
-
+    //Buttons
     @FXML
     private Button btnCancelPartAdd;
     @FXML
     private Button btnSaveAddPart;
+    //Text fields
     @FXML
     private TextField tfPartAddMin;
     @FXML
@@ -41,26 +53,22 @@ public class AddPartFormController implements Initializable {
     private TextField tfPartAddName;
     @FXML
     private TextField tfPartAddID;
+    //Radio buttons
     @FXML
     private RadioButton rdoBtnOutSourced;
     @FXML
     private RadioButton rdoBtnInHouse;
     @FXML
     private ToggleGroup rdoGrpAddPart;
-    @FXML
+   //variable label
+   @FXML
     private Label lblPartAddSwitch;
 
-    /**
-     * @param url
-     * @param resourceBundle
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        tfPartAddID.setText(String.valueOf(Inventory.getNextPartID()));
-        rdoBtnInHouse.selectedProperty().set(true);
-        lblPartAddSwitch.setText("Machine ID");
-    }
 
+    /**
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
     private void cancelPartAdd(ActionEvent actionEvent) throws IOException {
         thisStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -69,16 +77,29 @@ public class AddPartFormController implements Initializable {
         thisStage.show();
     }
 
+    /**
+     * Saves new part to inventory ArrayList
+     * @param actionEvent save button click
+     */
     @FXML
-    private void saveAddPart(ActionEvent actionEvent) {
+    private void saveAddPart(ActionEvent actionEvent) throws IOException {
         Part partToAdd = validateAndBuildPartToAdd();
         if (partToAdd != null){
             Inventory.addPart(partToAdd);
         }
         int increaseCount = Inventory.getNextPartID();
         tfPartAddID.setText(String.valueOf(increaseCount));
+        //return to main form scene
+        thisStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("MainForm.fxml"));
+        thisStage.setScene(new Scene(scene));
+        thisStage.show();
     }
 
+    /**
+     * Switches user interface settings when radio buttons are changed
+     * @param actionEvent Radio Button toggled
+     */
     @FXML
     private void switchLabelText(ActionEvent actionEvent) {
         if (rdoBtnInHouse.isSelected()) {
@@ -88,6 +109,10 @@ public class AddPartFormController implements Initializable {
     }
 
 
+    /**
+     * Validates and instantiates new Part object
+     * @return Newly Created Part or null indicating failure
+     */
     private Part validateAndBuildPartToAdd() {
         //ID does not need inout validation as it is not input by user
         if (Integer.parseInt(tfPartAddMin.getText()) >
@@ -105,8 +130,8 @@ public class AddPartFormController implements Initializable {
         //Catch invalid numerical input by user
         try {
             price = Double.parseDouble(tfPartAddPrice.getText());
-            Integer.parseInt(tfPartAddMin.getText());
-            Integer.parseInt(tfPartAddMax.getText());
+            min = Integer.parseInt(tfPartAddMin.getText());
+            max = Integer.parseInt(tfPartAddMax.getText());
             inv = Integer.parseInt(tfPartAddInv.getText());
         } catch(NumberFormatException nfe) {
             //alertUser
@@ -125,6 +150,32 @@ public class AddPartFormController implements Initializable {
         }
         else {
             return new Outsourced(id, name, price, inv, min, max, radio);
+        }
+    }
+    //Alert Boxes for Add Part Form
+    private void showAlertDialog(int alertType) {
+        //Create new alert
+        Alert anAlert = new Alert(Alert.AlertType.ERROR);
+        //Use switch statement to populate dialog box and display
+        switch (alertType) {
+            case 1:
+                anAlert.setTitle("Selection Error");
+                anAlert.setHeaderText("Error while attempting to modify!");
+                anAlert.setContentText("Please select an item from the list above before clicking the Modify button.");
+                anAlert.showAndWait();
+                break;
+            case 2:
+                anAlert.setTitle("Selection Error");
+                anAlert.setHeaderText("Error while attempting to delete!");
+                anAlert.setContentText("Please select an item from the list above before clicking the Delete button.");
+                anAlert.showAndWait();
+                break;
+            case 3:
+                anAlert.setTitle("Search Error");
+                anAlert.setHeaderText("Error while attempting a search!");
+                anAlert.setContentText("The search criteria yielded no results.");
+                anAlert.showAndWait();
+                break;
         }
     }
 }

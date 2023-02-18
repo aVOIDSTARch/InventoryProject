@@ -33,7 +33,7 @@
       <Button fx:id="btnRemoveAssociatedPart" layoutX="648.0" layoutY="456.0" mnemonicParsing="false" onAction="#removeAssociatedPart" prefHeight="25.0" prefWidth="154.0" text="Remove Associated Part" />
       <Button fx:id="btnCancelModify" layoutX="745.0" layoutY="492.0" mnemonicParsing="false" onAction="#cancelProductUpdate" text="Cancel" />
       <Button fx:id="btnSaveUpdatedProduct" layoutX="647.0" layoutY="492.0" mnemonicParsing="false" onAction="#saveProductUpdate" text="Save" />
-      <TextField fx:id="tfModPartID" editable="false" layoutX="131.0" layoutY="149.0" prefHeight="25.0" prefWidth="148.0" />
+      <TextField fx:id="tfModPartID" disable="true" editable="false" layoutX="131.0" layoutY="149.0" prefHeight="25.0" prefWidth="148.0" />
       <TextField fx:id="tfModPartName" layoutX="131.0" layoutY="190.0" prefHeight="25.0" prefWidth="75.0" />
       <TextField fx:id="tfModPartInv" layoutX="131.0" layoutY="234.0" prefHeight="25.0" prefWidth="75.0" />
       <TextField fx:id="tfModPartPrice" layoutX="130.0" layoutY="278.0" prefHeight="25.0" prefWidth="148.0" />

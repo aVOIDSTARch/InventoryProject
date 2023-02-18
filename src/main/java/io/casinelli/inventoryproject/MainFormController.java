@@ -3,6 +3,7 @@ package io.casinelli.inventoryproject;
 import io.casinelli.inventoryproject.Model.Inventory;
 import io.casinelli.inventoryproject.Model.Part;
 import io.casinelli.inventoryproject.Model.Product;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,26 +27,72 @@ public class MainFormController implements Initializable {
     Stage thisStage;
     Parent scene;
 
+
     /**
-     * Initialize the scene interface for MainForm.fxml
+     * Part selected in parts tableview
+     */
+    //Selected Part
+    private static Part selectedPart;
+
+    /**
+     * Getter function for selected part member field
+     * @return part selected in the Parts tableview
+     */
+    public static Part  getSelectedPart() {
+        return selectedPart;
+    }
+
+    /**
+     * Stores the selected part from the Parts tableview control
+     * @param selectedPart Part selected in the Parts tableview control
+     */
+    public void setSelectedPart(Part selectedPart) {
+        this.selectedPart = selectedPart;
+    }
+
+    //Selected Product
+    /**
+     * Product selected in Product tableview
+     */
+    private static Product selectedProduct;
+    /**
+     * Getter function for selected product member field
+     * @return product selected in the Products tableview
+     */
+    public static Product getSelectedProduct() {
+        return selectedProduct;
+    }
+    /**
+     * Stores the selected product from the Products tableview control
+     * @param selectedProduct Product selected in the Products tableview control
+     */
+    public void setSelectedProduct(Product selectedProduct) {
+        this.selectedProduct = selectedProduct;
+    }
+
+
+
+    /**
+     * Initializes the scene interface for MainForm.fxml
      * @param url
      * @param resourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         //Initialize parts tableview and associated columns
         tblvwMainParts.setItems(Inventory.getAllParts());
-        colPartID.setCellValueFactory(new PropertyValueFactory<Part, Integer>("id"));
-        colPartName.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
-        colPartInv.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
-        colPartPrice.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
+        colPartID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colPartName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colPartInv.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        colPartPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         //Initialize products tableview and associated columns
         tblvwMainProd.setItems(Inventory.getAllProducts());
-        colProdID.setCellValueFactory(new PropertyValueFactory<Product, Integer>("id"));
-        colProdName.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
-        colProdInv.setCellValueFactory(new PropertyValueFactory<Product, Integer>("stock"));
-        colProdPrice.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
+        colProdID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colProdName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colProdInv.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        colProdPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
     }
 
     //All Buttons
@@ -94,23 +141,57 @@ public class MainFormController implements Initializable {
     private TableColumn<Part, Integer> colPartID;
 
 
+    /**
+     * Exits the program
+     * @param actionEvent
+     */
     @FXML
     private void exitProgram(ActionEvent actionEvent) {
-        System.exit(0);
+        Platform.exit();
     }
 
+    /**
+     * Deletes the selected Product from the inventory
+     * @param actionEvent delete button clicked
+     */
     @FXML
     private void deleteSelectedProduct(ActionEvent actionEvent) {
+        if (tblvwMainProd.getSelectionModel().getSelectedIndex() < 0) {
+            //alert user to select item
+            System.out.println("No item selected");
+        } else {
+            int selectedIndex = tblvwMainProd.getSelectionModel().getSelectedIndex();
+            Inventory.getAllProducts().remove(selectedIndex);
+        }
     }
 
+    /**
+     * Stores selected part and changes to teh ModifyPart scene
+     * @param actionEvent Modify button in t parts controls clicked
+     * @throws IOException the FXMLLoader load() function may fail
+     */
     @FXML
     private void modifySelectedProduct(ActionEvent actionEvent) throws IOException {
-        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
-        scene   = FXMLLoader.load(getClass().getResource("ModifyProductForm.fxml"));
-        thisStage.setScene(new Scene(scene));
-        thisStage.show();
+            //Set Selected item
+            setSelectedProduct(tblvwMainProd.getSelectionModel().getSelectedItem());
+            if (getSelectedProduct() != null){
+                System.out.println(getSelectedProduct());
+            //switch scenes
+            thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("ModifyProductForm.fxml"));
+            thisStage.setScene(new Scene(scene));
+            thisStage.show();
+        } else {
+                //Alert User to select an item - ALERT 1
+                showAlertDialog(1);
+        }
     }
 
+    /**
+     * Changes the scene to the AddProduct scene
+     * @param actionEvent add button in the product controls area clicked
+     * @throws IOException
+     */
     @FXML
     private void addNewProduct(ActionEvent actionEvent) throws IOException {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
@@ -119,18 +200,47 @@ public class MainFormController implements Initializable {
         thisStage.show();
     }
 
+    /**
+     * Deletes selected part from the inventory ArrayList
+     * @param actionEvent delete part button clicked
+     */
     @FXML
     private void deleteSelectedPart(ActionEvent actionEvent) {
+        if (tblvwMainParts.getSelectionModel().getSelectedIndex() < 0) {
+            //alert user to select item - ALERT 2
+            showAlertDialog(2);
+        } else {
+            int selectedIndex = tblvwMainParts.getSelectionModel().getSelectedIndex();
+            Inventory.getAllParts().remove(selectedIndex);
+        }
     }
 
+    /**
+     * Sets the selected part for the ModifyPartForm to load and loads the ModifyPart scene
+     * @param actionEvent modify part button clicked
+     * @throws IOException when the FXMLLoader object's load() method fails to load the new scene
+     */
     @FXML
     private void modifySelectedPart(ActionEvent actionEvent) throws IOException {
-        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
-        scene   = FXMLLoader.load(getClass().getResource("ModifyPartForm.fxml"));
-        thisStage.setScene(new Scene(scene));
-        thisStage.show();
+        setSelectedPart(tblvwMainParts.getSelectionModel().getSelectedItem());
+        //Confirm object was selected
+        if(getSelectedPart() != null) {
+            //switch scenes
+            thisStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("ModifyPartForm.fxml"));
+            thisStage.setScene(new Scene(scene));
+            thisStage.show();
+        } else {
+            //Alert  user to select item - ALERT 1
+            showAlertDialog(1);
+        }
     }
 
+    /**
+     * Loads the AddPartForm scene
+     * @param actionEvent add part button clicked
+     * @throws IOException when the FXMLLoader object's load() method fails to load the new scene
+     */
     @FXML
     private void addNewPart(ActionEvent actionEvent) throws IOException {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
@@ -139,6 +249,11 @@ public class MainFormController implements Initializable {
         thisStage.show();
     }
 
+    /**
+     * Searches the Product ArrayList for the ID or Name in the input field
+     * @param actionEvent search field contains input and return is pressed
+     * @return
+     */
     @FXML
     private boolean searchProdMain(ActionEvent actionEvent) {
         ObservableList<Product> resultsList = FXCollections.observableArrayList();
@@ -159,7 +274,8 @@ public class MainFormController implements Initializable {
         }
         //Search returned no results
         if (resultsList.isEmpty()) {
-            //AlertUser
+            //AlertUser of failed searchALERT 3
+            showAlertDialog(3);
             //Assign Empty List to tableView
             tblvwMainProd.setItems(resultsList);
             return false;
@@ -170,6 +286,11 @@ public class MainFormController implements Initializable {
 
     }
 
+    /**
+     * Searches the Part ArrayList for the ID or Name in teh input field
+     * @param actionEvent search field contains input and return is pressed
+     * @return boolean indicating success
+     */
     @FXML
     private boolean searchPartsMain(ActionEvent actionEvent) {
         ObservableList<Part> resultsList = FXCollections.observableArrayList();
@@ -190,7 +311,8 @@ public class MainFormController implements Initializable {
         }
         //Search returned no results
         if (resultsList.isEmpty()) {
-            //AlertUser
+            //AlertUser of search failure - ALERT 3
+            showAlertDialog(3);
             //Assign Empty List to tableView
             tblvwMainParts.setItems(resultsList);
             return false;
@@ -200,5 +322,35 @@ public class MainFormController implements Initializable {
         return true;
     }
 
+    /**
+     * Singel method to determine the appropriate alert to display
+     * @param alertType integer indicating the alert to display
+     */
+    //User Alert Methods
+    private void showAlertDialog(int alertType) {
+        //Create new alert
+        Alert anAlert = new Alert(Alert.AlertType.ERROR);
+        //Use switch statement to populate dialog box and display
+        switch (alertType) {
+            case 1:
+                anAlert.setTitle("Selection Error");
+                anAlert.setHeaderText("Error while attempting to modify!");
+                anAlert.setContentText("Please select an item from the list above before clicking the Modify button.");
+                anAlert.showAndWait();
+                break;
+            case 2:
+                anAlert.setTitle("Selection Error");
+                anAlert.setHeaderText("Error while attempting to delete!");
+                anAlert.setContentText("Please select an item from the list above before clicking the Delete button.");
+                anAlert.showAndWait();
+                break;
+            case 3:
+                anAlert.setTitle("Search Error");
+                anAlert.setHeaderText("Error while attempting a search!");
+                anAlert.setContentText("The search criteria yielded no results.");
+                anAlert.showAndWait();
+                break;
+        }
+    }
 
 }

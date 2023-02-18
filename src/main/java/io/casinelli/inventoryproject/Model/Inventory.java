@@ -13,7 +13,6 @@ import javafx.collections.ObservableList;
 
 
 public class Inventory {
-
     /**
      * Variable used to keep track of next new port ID
      */
