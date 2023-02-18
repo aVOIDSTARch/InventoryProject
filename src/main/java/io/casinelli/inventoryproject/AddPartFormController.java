@@ -86,11 +86,12 @@ public class AddPartFormController implements Initializable {
         Part partToAdd = validateAndBuildPartToAdd();
         if (partToAdd != null){
             Inventory.addPart(partToAdd);
+            int increaseCount = Inventory.getNextPartID();
+            tfPartAddID.setText(String.valueOf(increaseCount));
+            //return to main form scene
+            cancelPartAdd(actionEvent);
         }
-        int increaseCount = Inventory.getNextPartID();
-        tfPartAddID.setText(String.valueOf(increaseCount));
-        //return to main form scene
-        cancelPartAdd(actionEvent);
+
     }
 
     /**
@@ -112,9 +113,10 @@ public class AddPartFormController implements Initializable {
      */
     private Part validateAndBuildPartToAdd() {
         //ID does not need inout validation as it is not input by user
-        if (Integer.parseInt(tfPartAddMin.getText()) >
-                Integer.parseInt(tfPartAddMax.getText()) ){
+        if (!(Integer.parseInt(tfPartAddMin.getText()) >= Integer.parseInt(tfPartAddInv.getText())) &&
+                !(Integer.parseInt(tfPartAddInv.getText()) <= Integer.parseInt(tfPartAddMax.getText()))){
             //alertUser
+            showAlertDialog(2);
             return null;
         }
         int id = Integer.parseInt(tfPartAddID.getText());
@@ -152,6 +154,10 @@ public class AddPartFormController implements Initializable {
         }
     }
     //Alert Boxes for Add Part Form
+    /**
+     * Display appropriate alert message to user contingent upon input
+     * @param alertType type of alert message to display
+     */
     private void showAlertDialog(int alertType) {
         //Create new alert
         Alert anAlert = new Alert(Alert.AlertType.ERROR);
@@ -163,7 +169,12 @@ public class AddPartFormController implements Initializable {
                 anAlert.setContentText("Please verify all inputs and resubmit new part.");
                 anAlert.showAndWait();
                 break;
-
+            case 2:
+                anAlert.setTitle("Invalid Inventory Error");
+                anAlert.setHeaderText("Error while attempting to add new part!");
+                anAlert.setContentText("Please verify all inventory inputs and resubmit new part.");
+                anAlert.showAndWait();
+                break;
         }
     }
 }

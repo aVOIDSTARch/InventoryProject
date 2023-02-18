@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ModifyProductFormController implements Initializable {
@@ -29,13 +30,16 @@ public class ModifyProductFormController implements Initializable {
 
 
     /**
+     * Initializes both tableviews in the modify part scene
      * @param url
      * @param resourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //import selected product
         thisProduct = MainFormController.getSelectedProduct();
         associatedParts = thisProduct.getAssociatedParts();
+        //Populate textfields with product information
         tfModPartID.setText(String.valueOf(thisProduct.getId()));
         tfModPartName.setText(thisProduct.getName());
         tfModPartInv.setText(String.valueOf(thisProduct.getStock()));
@@ -56,12 +60,13 @@ public class ModifyProductFormController implements Initializable {
         colModAssocPartPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
     }
 
-
+    //TableViews
     @FXML
     private TableView tblvPartsSearch;
     @FXML
     private TableView tblvPartsList;
     @FXML
+    //Buttons
     private Button btnAddPartToProduct;
     @FXML
     private Button btnRemoveAssociatedPart;
@@ -69,6 +74,7 @@ public class ModifyProductFormController implements Initializable {
     private Button btnCancelModify;
     @FXML
     private Button btnSaveUpdatedProduct;
+    //TextFields
     @FXML
     private TextField tfModPartID;
     @FXML
@@ -83,6 +89,7 @@ public class ModifyProductFormController implements Initializable {
     private TextField tfModPartMin;
     @FXML
     private TextField tfPartSearch;
+    //Associated Parts table columns
     @FXML
     private TableColumn colModAssocPartPrice;
     @FXML
@@ -91,6 +98,7 @@ public class ModifyProductFormController implements Initializable {
     private TableColumn colModAssocPartName;
     @FXML
     private TableColumn colModAssocPartID;
+    //Available Parts list columns
     @FXML
     private TableColumn colModPartPrice;
     @FXML
@@ -100,6 +108,13 @@ public class ModifyProductFormController implements Initializable {
     @FXML
     private TableColumn colModPartID;
 
+    /**
+     * Search the available parts list by ID or name
+     *
+     * FUTURE ENHANCEMENT - search could be enhanced to search more data fields
+     *
+     * @param actionEvent search button clicked event
+     */
     @FXML
     private void searchPartsInProduct(ActionEvent actionEvent) {
         ObservableList<Part> resultsList = FXCollections.observableArrayList();
@@ -121,6 +136,7 @@ public class ModifyProductFormController implements Initializable {
         //Search returned no results
         if (resultsList.isEmpty()) {
             //AlertUser
+            showAlertDialog(5);
             //Assign Empty List to tableView
             tblvPartsSearch.setItems(resultsList);
         }
@@ -129,6 +145,10 @@ public class ModifyProductFormController implements Initializable {
 
     }
 
+    /**
+     * Save revised product and return to Mainform scene
+     * @param actionEvent save button clicked event
+     */
     @FXML
     private void saveProductUpdate(ActionEvent actionEvent) {
         Product newProduct = validateAndBuildProductToAdd();
@@ -138,12 +158,22 @@ public class ModifyProductFormController implements Initializable {
                 index++;
                 if (thisProduct.getId() == newProduct.getId()){
                     Inventory.getAllProducts().set(index, newProduct);
+                    try {
+                        cancelProductUpdate(actionEvent);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 }
             }
         }
     }
 
+    /**
+     * Cancel update and return to the MainForm scene
+     * @param actionEvent cancel button clicked event
+     * @throws IOException error when load method fails
+     */
     @FXML
     private void cancelProductUpdate(ActionEvent actionEvent) throws IOException {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
@@ -155,7 +185,16 @@ public class ModifyProductFormController implements Initializable {
     @FXML
     private void removeAssociatedPart(ActionEvent actionEvent) {
         if (tblvPartsList.getSelectionModel().getSelectedItem() != null ) {
-            associatedParts.remove(tblvPartsList.getSelectionModel().getSelectedItem());
+            Alert newAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            newAlert.setTitle("Confirm");
+            newAlert.setContentText("Are you sure you want to remove the selected part from the product?");
+            Optional<ButtonType> result = newAlert.showAndWait();
+
+            if(result.isPresent() && result.get() == ButtonType.OK) {
+                associatedParts.remove(tblvPartsList.getSelectionModel().getSelectedItem());
+            }
+        }else {
+            showAlertDialog(4);
         }
     }
 
@@ -165,14 +204,16 @@ public class ModifyProductFormController implements Initializable {
             associatedParts.add((Part) tblvPartsSearch.getSelectionModel().getSelectedItem());
         } else {
             //Alert User to select part
+            showAlertDialog(3);
         }
     }
 
     private Product validateAndBuildProductToAdd() {
         //ID does not need inout validation as it is not input by user
-        if (Integer.parseInt(tfModPartMin.getText()) >
-                Integer.parseInt(tfModPartMax.getText())) {
-            //alertUser
+        if (!(Integer.parseInt(tfModPartMin.getText()) >= Integer.parseInt(tfModPartInv.getText())) &&
+                !(Integer.parseInt(tfModPartInv.getText()) <= Integer.parseInt(tfModPartMax.getText()))) {
+            //alertUser - alert 2
+            showAlertDialog(2);
             return null;
         }
         int id = Integer.parseInt(tfModPartID.getText());
@@ -190,9 +231,47 @@ public class ModifyProductFormController implements Initializable {
             min = Integer.parseInt(tfModPartMin.getText());
         } catch (NumberFormatException nfe) {
             //alertUser
+            showAlertDialog(1);
             return null;
         }
 
         return new Product(associatedParts, id, name, price, inv, min, max);
+    }
+    private void showAlertDialog(int alertType) {
+        //Create new alert
+        Alert anAlert = new Alert(Alert.AlertType.ERROR);
+        //Use switch statement to populate dialog box and display
+        switch (alertType) {
+            case 1:
+                anAlert.setTitle("Invalid Input Error");
+                anAlert.setHeaderText("Error while attempting to modify product!");
+                anAlert.setContentText("Please verify all inputs and resubmit modified product.");
+                anAlert.showAndWait();
+                break;
+            case 2:
+                anAlert.setTitle("Invalid Inventory Error");
+                anAlert.setHeaderText("Error while attempting to modify product!");
+                anAlert.setContentText("Please verify all inventory inputs and resubmit modified product.");
+                anAlert.showAndWait();
+                break;
+            case 3:
+                anAlert.setTitle("Invalid Selection Error");
+                anAlert.setHeaderText("Error while attempting to modify product!");
+                anAlert.setContentText("Please select part to add to product.");
+                anAlert.showAndWait();
+                break;
+            case 4:
+                anAlert.setTitle("Invalid Selection Error");
+                anAlert.setHeaderText("Error while attempting to modify product!");
+                anAlert.setContentText("Please select part to remove from product.");
+                anAlert.showAndWait();
+                break;
+            case 5:
+                anAlert.setTitle("Search Error");
+                anAlert.setHeaderText("Error while attempting a search!");
+                anAlert.setContentText("The search criteria yielded no results.");
+                anAlert.showAndWait();
+                break;
+        }
     }
 }

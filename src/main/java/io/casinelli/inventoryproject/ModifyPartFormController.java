@@ -52,6 +52,7 @@ public class ModifyPartFormController implements Initializable {
         tfPartModMax.setText(String.valueOf(selectedPart.getMax()));
         tfPartModMin.setText(String.valueOf(selectedPart.getMin()));
         tfPartModPrice.setText(String.valueOf(selectedPart.getPrice()));
+        //Determine object class to initialize variable label
         if (selectedPart instanceof InHouse) {
             rdoBtnInHouse.selectedProperty().set(true);
             lblPartModSwitch.setText("Machine ID");
@@ -101,9 +102,13 @@ public class ModifyPartFormController implements Initializable {
      * @throws IOException when the FXMLLoader object's load() method fails to load teh next scene
      */
     @FXML
-    private void cancelPartMod(ActionEvent actionEvent) throws IOException {
+    private void cancelPartMod(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
-        scene   = FXMLLoader.load(getClass().getResource("MainForm.fxml"));
+        try {
+            scene   = FXMLLoader.load(getClass().getResource("MainForm.fxml"));
+        } catch (IOException e) {
+            System.out.println("error");
+        }
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
@@ -123,14 +128,9 @@ public class ModifyPartFormController implements Initializable {
                 if (part.getId() == replacementPart.getId()) {
                     Inventory.getAllParts().set(index, replacementPart);
                     //switch back to MainForm scene after successfully modifying part
-                    try {
-                        cancelPartMod(actionEvent);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    cancelPartMod(actionEvent);
                     break;
                 }
-                ;
             }
         }
     }
@@ -155,10 +155,10 @@ public class ModifyPartFormController implements Initializable {
      */
     private Part validateAndBuildPartToAdd() {
         //ID does not need inout validation as it is not input by user
-        if (Integer.parseInt(tfPartModMin.getText()) >
-                Integer.parseInt(tfPartModMax.getText()) ){
+        if (!(Integer.parseInt(tfPartModMin.getText()) >= Integer.parseInt(tfPartModInv.getText())) &&
+                !(Integer.parseInt(tfPartModInv.getText()) <= Integer.parseInt(tfPartModMax.getText()))){
             //alertUser
-            showAlertDialog(1);
+            showAlertDialog(2);
             return null;
         }
         int id = Integer.parseInt(tfPartModID.getText());
@@ -194,6 +194,11 @@ public class ModifyPartFormController implements Initializable {
             return new Outsourced(id, name, price, inv, min, max, radio);
         }
     }
+
+    /**
+     * Display appropriate alert message to user contingent upon input
+     * @param alertType type of alert message to display
+     */
     //Alert Boxes
     private void showAlertDialog(int alertType) {
         //Create new alert
@@ -204,6 +209,12 @@ public class ModifyPartFormController implements Initializable {
                 anAlert.setTitle("Invalid Input Error");
                 anAlert.setHeaderText("Error while attempting to add new part!");
                 anAlert.setContentText("Please verify all inputs and resubmit new part.");
+                anAlert.showAndWait();
+                break;
+            case 2:
+                anAlert.setTitle("Invalid Inventory Error");
+                anAlert.setHeaderText("Error while attempting to add new part!");
+                anAlert.setContentText("Please verify all inventory inputs and resubmit new part.");
                 anAlert.showAndWait();
                 break;
 

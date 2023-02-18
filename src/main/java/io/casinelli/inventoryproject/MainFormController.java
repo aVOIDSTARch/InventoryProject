@@ -19,6 +19,7 @@ import javafx.stage.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MainFormController implements Initializable {
@@ -156,17 +157,30 @@ public class MainFormController implements Initializable {
      */
     @FXML
     private void deleteSelectedProduct(ActionEvent actionEvent) {
-        if (tblvwMainProd.getSelectionModel().getSelectedIndex() < 0) {
-            //alert user to select item
-            System.out.println("No item selected");
+        if (tblvwMainProd.getSelectionModel().getSelectedItem().getAssociatedParts().isEmpty()) {
+            if (tblvwMainProd.getSelectionModel().getSelectedItem() != null ) {
+
+                Alert newAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                newAlert.setTitle("Confirm");
+                newAlert.setContentText("Are you sure you want to delete the selected product?");
+                Optional<ButtonType> result = newAlert.showAndWait();
+
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    int selectedIndex = tblvwMainProd.getSelectionModel().getSelectedIndex();
+                    Inventory.getAllProducts().remove(selectedIndex);
+                }
+            }else {
+                showAlertDialog(2);
+            }
         } else {
-            int selectedIndex = tblvwMainProd.getSelectionModel().getSelectedIndex();
-            Inventory.getAllProducts().remove(selectedIndex);
+            //alert parts associated with product
+            showAlertDialog(4);
         }
+
     }
 
     /**
-     * Stores selected part and changes to teh ModifyPart scene
+     * Stores selected part and changes to the ModifyPart scene
      *
      * RUNTIME ERROR - a run time error was corrected in this method.  The error
      * was a NullPointerException, and it was corrected by ensuing the correct
@@ -211,12 +225,19 @@ public class MainFormController implements Initializable {
      */
     @FXML
     private void deleteSelectedPart(ActionEvent actionEvent) {
-        if (tblvwMainParts.getSelectionModel().getSelectedIndex() < 0) {
-            //alert user to select item - ALERT 2
+        if (tblvwMainParts.getSelectionModel().getSelectedItem() != null ) {
+
+            Alert newAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            newAlert.setTitle("Confirm");
+            newAlert.setContentText("Are you sure you want to delete the selected part?");
+            Optional<ButtonType> result = newAlert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                int selectedIndex = tblvwMainParts.getSelectionModel().getSelectedIndex();
+                Inventory.getAllParts().remove(selectedIndex);
+            }
+        }else {
             showAlertDialog(2);
-        } else {
-            int selectedIndex = tblvwMainParts.getSelectionModel().getSelectedIndex();
-            Inventory.getAllParts().remove(selectedIndex);
         }
     }
 
@@ -328,7 +349,7 @@ public class MainFormController implements Initializable {
     }
 
     /**
-     * Singel method to determine the appropriate alert to display
+     * Display appropriate alert message to user contingent upon input
      * @param alertType integer indicating the alert to display
      */
     //User Alert Methods
@@ -353,6 +374,13 @@ public class MainFormController implements Initializable {
                 anAlert.setTitle("Search Error");
                 anAlert.setHeaderText("Error while attempting a search!");
                 anAlert.setContentText("The search criteria yielded no results.");
+                anAlert.showAndWait();
+                break;
+            case 4:
+                anAlert.setTitle("Deletion Error");
+                anAlert.setHeaderText("Error while attempting to delete product!");
+                anAlert.setContentText("This product has associated parts. Please remove ALL parts " +
+                        "and attempt deletion again.");
                 anAlert.showAndWait();
                 break;
         }

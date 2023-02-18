@@ -11,15 +11,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AddProductFormController implements Initializable {
@@ -122,6 +120,7 @@ public class AddProductFormController implements Initializable {
             //Search returned no results
             if (resultsList.isEmpty()) {
                 //AlertUser
+                showAlertDialog(5);
                 //Assign Empty List to tableView
                 tblvPartsSearch.setItems(resultsList);
                             }
@@ -142,10 +141,17 @@ public class AddProductFormController implements Initializable {
 
     @FXML
     private void removeAssociatedPart(ActionEvent actionEvent) {
-        if (tblvPartsList.getSelectionModel().getSelectedItem() != null) {
-            associatedParts.remove((Part) tblvPartsList.getSelectionModel().getSelectedItem());
-        } else {
-            //Alert User to select part
+        if (tblvPartsList.getSelectionModel().getSelectedItem() != null ) {
+            Alert newAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            newAlert.setTitle("Confirm");
+            newAlert.setContentText("Are you sure you want to remove the selected part from the product?");
+            Optional<ButtonType> result = newAlert.showAndWait();
+
+            if(result.isPresent() && result.get() == ButtonType.OK) {
+                associatedParts.remove(tblvPartsList.getSelectionModel().getSelectedItem());
+            }
+        }else {
+            showAlertDialog(4);
         }
     }
 
@@ -162,14 +168,20 @@ public class AddProductFormController implements Initializable {
         Product newProduct = validateAndBuildProductToAdd();
         if (newProduct != null) {
             Inventory.addProduct(newProduct);
+            try {
+                cancelProductUpdate(actionEvent);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
     private Product validateAndBuildProductToAdd() {
         //ID does not need inout validation as it is not input by user
-        if (Integer.parseInt(tfAddPartMin.getText()) >
-                Integer.parseInt(tfAddPartMax.getText())) {
+        if (!(Integer.parseInt(tfAddPartMin.getText()) >= Integer.parseInt(tfAddPartInv.getText())) &&
+                !(Integer.parseInt(tfAddPartInv.getText()) <= Integer.parseInt(tfAddPartMax.getText()))) {
             //alertUser
+            showAlertDialog(2);
             return null;
         }
         int id = Integer.parseInt(tfAddPartID.getText());
@@ -187,10 +199,48 @@ public class AddProductFormController implements Initializable {
             min = Integer.parseInt(tfAddPartMin.getText());
         } catch (NumberFormatException nfe) {
             //alertUser
+            showAlertDialog(1);
             return null;
         }
 
         return new Product(associatedParts, id, name, price, inv, min, max);
+    }
+    private void showAlertDialog(int alertType) {
+        //Create new alert
+        Alert anAlert = new Alert(Alert.AlertType.ERROR);
+        //Use switch statement to populate dialog box and display
+        switch (alertType) {
+            case 1:
+                anAlert.setTitle("Invalid Input Error");
+                anAlert.setHeaderText("Error while attempting to modify product!");
+                anAlert.setContentText("Please verify all inputs and resubmit modified product.");
+                anAlert.showAndWait();
+                break;
+            case 2:
+                anAlert.setTitle("Invalid Inventory Error");
+                anAlert.setHeaderText("Error while attempting to modify product!");
+                anAlert.setContentText("Please verify all inventory inputs and resubmit modified product.");
+                anAlert.showAndWait();
+                break;
+            case 3:
+                anAlert.setTitle("Invalid Selection Error");
+                anAlert.setHeaderText("Error while attempting to modify product!");
+                anAlert.setContentText("Please select part to add to product.");
+                anAlert.showAndWait();
+                break;
+            case 4:
+                anAlert.setTitle("Invalid Selection Error");
+                anAlert.setHeaderText("Error while attempting to modify product!");
+                anAlert.setContentText("Please select part to remove from product.");
+                anAlert.showAndWait();
+                break;
+            case 5:
+                anAlert.setTitle("Search Error");
+                anAlert.setHeaderText("Error while attempting a search!");
+                anAlert.setContentText("The search criteria yielded no results.");
+                anAlert.showAndWait();
+                break;
+        }
     }
 
 }
