@@ -17,11 +17,20 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Class used to provide a javaFX scene interface to allow parts to
+ * be added to the inventory.
+ */
 public class AddPartFormController implements Initializable {
     /**
      * Initializes the AddPartForm Controller
-     * @param url
-     * @param resourceBundle
+     * @param url The location used to resolve relative paths for the
+     *            root object, or null if the location is not known.
+     *            This is not ued in this implementation.
+     * @param resourceBundle The resources used to localize the root
+     *                       object, or null if the root object was
+     *                       not localized. This is not ued in this
+     *                       implementation.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -30,7 +39,7 @@ public class AddPartFormController implements Initializable {
         lblPartAddSwitch.setText("Machine ID");
     }
 
-
+    //class variables
     Stage thisStage;
     Parent scene;
     //Buttons
@@ -66,8 +75,9 @@ public class AddPartFormController implements Initializable {
 
 
     /**
-     * @param actionEvent
-     * @throws IOException
+     * @param actionEvent cancel button click event
+     * @throws IOException error occurs when the FXMLLoader object
+     * fails to locate or load teh appropriate FXML document
      */
     @FXML
     private void cancelPartAdd(ActionEvent actionEvent) throws IOException {
@@ -79,7 +89,7 @@ public class AddPartFormController implements Initializable {
 
     /**
      * Saves new part to inventory ArrayList
-     * @param actionEvent save button click
+     * @param actionEvent save button click event
      */
     @FXML
     private void saveAddPart(ActionEvent actionEvent) throws IOException {
@@ -121,10 +131,10 @@ public class AddPartFormController implements Initializable {
         }
         int id = Integer.parseInt(tfPartAddID.getText());
         String name = tfPartAddName.getText();
-        double price = 0.0;
-        int inv =0;
-        int min =0;
-        int max = 0;
+        double price;
+        int inv;
+        int min;
+        int max;
         String radio = tfPartAddSwitch.getText();
         //Catch invalid numerical input by user
         try {
@@ -163,18 +173,18 @@ public class AddPartFormController implements Initializable {
         Alert anAlert = new Alert(Alert.AlertType.ERROR);
         //Use switch statement to populate dialog box and display
         switch (alertType) {
-            case 1:
+            case 1 -> {
                 anAlert.setTitle("Invalid Input Error");
                 anAlert.setHeaderText("Error while attempting to add new part!");
                 anAlert.setContentText("Please verify all inputs and resubmit new part.");
                 anAlert.showAndWait();
-                break;
-            case 2:
+            }
+            case 2 -> {
                 anAlert.setTitle("Invalid Inventory Error");
                 anAlert.setHeaderText("Error while attempting to add new part!");
                 anAlert.setContentText("Please verify all inventory inputs and resubmit new part.");
                 anAlert.showAndWait();
-                break;
+            }
         }
     }
 }

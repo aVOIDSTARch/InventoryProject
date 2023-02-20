@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -10,7 +11,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="563.0" prefWidth="845.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.casinelli.inventoryproject.ModifyProductFormController">
    <children>
-      <Rectangle fx:id="lblProductInv" arcHeight="20.0" arcWidth="20.0" fill="#1f93ff00" height="544.0" layoutX="9.0" layoutY="10.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" width="828.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="10.0" />
+      <Rectangle fx:id="frame1" arcHeight="20.0" arcWidth="20.0" fill="#1f93ff00" height="544.0" layoutX="9.0" layoutY="10.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" width="828.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="10.0" />
       <Label fx:id="lblModProduct" layoutX="33.0" layoutY="31.0" style="-fx-font-weight: 900;" text="Modify Product" />
       <TextField fx:id="tfPartSearch" layoutX="644.0" layoutY="19.0" onAction="#searchPartsInProduct" prefHeight="25.0" prefWidth="179.0" promptText="Search by Part ID or Name" />
       <TableView fx:id="tblvPartsSearch" layoutX="348.0" layoutY="55.0" prefHeight="169.0" prefWidth="477.0">
@@ -31,8 +32,11 @@
       </TableView>
       <Button fx:id="btnAddPartToProduct" layoutX="761.0" layoutY="237.0" mnemonicParsing="false" onAction="#addPartToProduct" text="Add" />
       <Button fx:id="btnRemoveAssociatedPart" layoutX="648.0" layoutY="456.0" mnemonicParsing="false" onAction="#removeAssociatedPart" prefHeight="25.0" prefWidth="154.0" text="Remove Associated Part" />
-      <Button fx:id="btnCancelModify" layoutX="745.0" layoutY="492.0" mnemonicParsing="false" onAction="#cancelProductUpdate" text="Cancel" />
-      <Button fx:id="btnSaveUpdatedProduct" layoutX="647.0" layoutY="492.0" mnemonicParsing="false" onAction="#saveProductUpdate" text="Save" />
+      <Button fx:id="btnCancelModify" cancelButton="true" layoutX="745.0" layoutY="492.0" mnemonicParsing="false" onAction="#cancelProductModify" text="Cancel">
+         <cursor>
+            <Cursor fx:constant="NONE" />
+         </cursor></Button>
+      <Button fx:id="btnSaveUpdatedProduct" defaultButton="true" layoutX="647.0" layoutY="492.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#saveProductModify" text="Save" />
       <TextField fx:id="tfModPartID" disable="true" editable="false" layoutX="131.0" layoutY="149.0" prefHeight="25.0" prefWidth="148.0" />
       <TextField fx:id="tfModPartName" layoutX="131.0" layoutY="190.0" prefHeight="25.0" prefWidth="75.0" />
       <TextField fx:id="tfModPartInv" layoutX="131.0" layoutY="234.0" prefHeight="25.0" prefWidth="75.0" />

@@ -3,6 +3,7 @@
 /**
  * Part object to store part data and provide access to appropriate data
  * @author Louis Casinelli Jr
+ * @version 1.00
  */
 
 package io.casinelli.inventoryproject.Model;

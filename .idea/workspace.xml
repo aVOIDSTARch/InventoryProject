@@ -4,13 +4,94 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="698e4fdc-dccc-4af9-8e09-1df7d9c4a5cc" name="Changes" comment="Exit button redirect complete and both add and modify part scenes fully functional.  Runtime exception included in MainForm comment">
+    <list default="true" id="698e4fdc-dccc-4af9-8e09-1df7d9c4a5cc" name="Changes" comment="Program preliminarily complete. Minor bug with loading and unloading ModifyProduct Scene">
+      <change afterPath="$PROJECT_DIR$/src/main/io.casinelli.inventoryproject/io/casinelli/inventoryproject/AddPartFormController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/io.casinelli.inventoryproject/io/casinelli/inventoryproject/AddProductFormController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/io.casinelli.inventoryproject/io/casinelli/inventoryproject/Main.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/io.casinelli.inventoryproject/io/casinelli/inventoryproject/MainFormController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/io.casinelli.inventoryproject/io/casinelli/inventoryproject/Model/InHouse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/io.casinelli.inventoryproject/io/casinelli/inventoryproject/Model/Inventory.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/io.casinelli.inventoryproject/io/casinelli/inventoryproject/Model/Outsourced.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/io.casinelli.inventoryproject/io/casinelli/inventoryproject/Model/Part.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/io.casinelli.inventoryproject/io/casinelli/inventoryproject/Model/Product.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/io.casinelli.inventoryproject/io/casinelli/inventoryproject/Model/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/io.casinelli.inventoryproject/io/casinelli/inventoryproject/Model/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/io.casinelli.inventoryproject/io/casinelli/inventoryproject/ModifyPartFormController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/io.casinelli.inventoryproject/io/casinelli/inventoryproject/ModifyProductFormController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/io.casinelli.inventoryproject/io/casinelli/inventoryproject/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/io.casinelli.inventoryproject/io/casinelli/inventoryproject/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/io.casinelli.inventoryproject/module-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/allclasses-index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/allpackages-index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/copy.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/element-list" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/help-doc.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/index-files/index-1.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/index-files/index-10.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/index-files/index-2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/index-files/index-3.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/index-files/index-4.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/index-files/index-5.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/index-files/index-6.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/index-files/index-7.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/index-files/index-8.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/index-files/index-9.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/io.casinelli.inventoryproject/io/casinelli/inventoryproject/AddPartFormController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/io.casinelli.inventoryproject/io/casinelli/inventoryproject/AddProductFormController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/io.casinelli.inventoryproject/io/casinelli/inventoryproject/Main.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/io.casinelli.inventoryproject/io/casinelli/inventoryproject/MainFormController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/io.casinelli.inventoryproject/io/casinelli/inventoryproject/Model/InHouse.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/io.casinelli.inventoryproject/io/casinelli/inventoryproject/Model/Inventory.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/io.casinelli.inventoryproject/io/casinelli/inventoryproject/Model/Outsourced.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/io.casinelli.inventoryproject/io/casinelli/inventoryproject/Model/Part.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/io.casinelli.inventoryproject/io/casinelli/inventoryproject/Model/Product.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/io.casinelli.inventoryproject/io/casinelli/inventoryproject/Model/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/io.casinelli.inventoryproject/io/casinelli/inventoryproject/Model/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/io.casinelli.inventoryproject/io/casinelli/inventoryproject/ModifyPartFormController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/io.casinelli.inventoryproject/io/casinelli/inventoryproject/ModifyProductFormController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/io.casinelli.inventoryproject/io/casinelli/inventoryproject/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/io.casinelli.inventoryproject/io/casinelli/inventoryproject/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/io.casinelli.inventoryproject/module-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/jquery-ui.overrides.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/legal/ADDITIONAL_LICENSE_INFO" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/legal/ASSEMBLY_EXCEPTION" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/legal/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/legal/jquery.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/legal/jqueryUI.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/member-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/module-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/overview-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/package-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/resources/glass.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/resources/x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/script-dir/jquery-3.6.0.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/script-dir/jquery-ui.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/script-dir/jquery-ui.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/script.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/search-page.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/search.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/search.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/stylesheet.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/tag-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/JavaDoc-Documentation/type-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/glass.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/AddPartFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/AddPartFormController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/AddProductFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/AddProductFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/MainFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/MainFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/Model/InHouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/Model/InHouse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/Model/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/Model/Inventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/Model/Outsourced.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/Model/Outsourced.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/Model/Part.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/Model/Part.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/Model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/Model/Product.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/ModifyPartFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/ModifyPartFormController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/ModifyProductFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/casinelli/inventoryproject/ModifyProductFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/io/casinelli/inventoryproject/AddProductForm.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/io/casinelli/inventoryproject/AddProductForm.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/io/casinelli/inventoryproject/ModifyProductForm.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/io/casinelli/inventoryproject/ModifyProductForm.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,7 +213,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676737685457</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Program preliminarily complete. Minor bug with loading and unloading ModifyProduct Scene">
+      <created>1676744245898</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1676744245898</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -151,7 +239,8 @@
     <MESSAGE value="Navigation functional" />
     <MESSAGE value="Search Functional" />
     <MESSAGE value="Exit button redirect complete and both add and modify part scenes fully functional.  Runtime exception included in MainForm comment" />
-    <option name="LAST_COMMIT_MESSAGE" value="Exit button redirect complete and both add and modify part scenes fully functional.  Runtime exception included in MainForm comment" />
+    <MESSAGE value="Program preliminarily complete. Minor bug with loading and unloading ModifyProduct Scene" />
+    <option name="LAST_COMMIT_MESSAGE" value="Program preliminarily complete. Minor bug with loading and unloading ModifyProduct Scene" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

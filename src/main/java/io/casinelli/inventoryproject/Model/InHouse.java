@@ -3,6 +3,7 @@ package io.casinelli.inventoryproject.Model;
 /**
  * Part subclass used to store parts made in-house
  * @author Louis Casinelli Jr
+ * @version 1.00
  */
 
 public class InHouse extends Part {

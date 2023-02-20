@@ -20,6 +20,9 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Class used to implement user interface to modify existing product in inventory
+ */
 public class ModifyProductFormController implements Initializable {
     Stage thisStage;
     Parent scene;
@@ -31,15 +34,21 @@ public class ModifyProductFormController implements Initializable {
 
     /**
      * Initializes both tableviews in the modify part scene
-     * @param url
-     * @param resourceBundle
+     * @param url The location used to resolve relative paths for the
+     *            root object, or null if the location is not known.
+     *            This is not used in this implementation.
+     * @param resourceBundle The resources used to localize the root
+     *                       object, or null if the root object was
+     *                       not localized. This is not ued in this
+     *                       implementation.
+
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //import selected product
         thisProduct = MainFormController.getSelectedProduct();
         associatedParts = thisProduct.getAssociatedParts();
-        //Populate textfields with product information
+        //Populate text-fields with product information
         tfModPartID.setText(String.valueOf(thisProduct.getId()));
         tfModPartName.setText(thisProduct.getName());
         tfModPartInv.setText(String.valueOf(thisProduct.getStock()));
@@ -62,9 +71,9 @@ public class ModifyProductFormController implements Initializable {
 
     //TableViews
     @FXML
-    private TableView tblvPartsSearch;
+    private TableView<Part> tblvPartsSearch;
     @FXML
-    private TableView tblvPartsList;
+    private TableView<Part> tblvPartsList;
     @FXML
     //Buttons
     private Button btnAddPartToProduct;
@@ -91,26 +100,26 @@ public class ModifyProductFormController implements Initializable {
     private TextField tfPartSearch;
     //Associated Parts table columns
     @FXML
-    private TableColumn colModAssocPartPrice;
+    private TableColumn<Object, Object> colModAssocPartPrice;
     @FXML
-    private TableColumn colModAssocPartInv;
+    private TableColumn<Object, Object> colModAssocPartInv;
     @FXML
-    private TableColumn colModAssocPartName;
+    private TableColumn<Object, Object> colModAssocPartName;
     @FXML
-    private TableColumn colModAssocPartID;
+    private TableColumn<Object, Object> colModAssocPartID;
     //Available Parts list columns
     @FXML
-    private TableColumn colModPartPrice;
+    private TableColumn<Object, Object> colModPartPrice;
     @FXML
-    private TableColumn colModPartInv;
+    private TableColumn<Object, Object> colModPartInv;
     @FXML
-    private TableColumn colModPartName;
+    private TableColumn<Object, Object> colModPartName;
     @FXML
-    private TableColumn colModPartID;
+    private TableColumn<Object, Object> colModPartID;
 
     /**
      * Search the available parts list by ID or name
-     *
+     * <p>
      * FUTURE ENHANCEMENT - search could be enhanced to search more data fields
      *
      * @param actionEvent search button clicked event
@@ -127,9 +136,7 @@ public class ModifyProductFormController implements Initializable {
         }
         //Add all matches of a number and an ID that are not already in the list
         for (Part part : Inventory.getAllParts()) {
-            if (resultsList.contains(part)) {
-                continue;
-            } else if (String.valueOf(part.getId()).contains(searchText)) {
+           if (String.valueOf(part.getId()).contains(searchText)) {
                 resultsList.add(part);
             }
         }
@@ -150,23 +157,26 @@ public class ModifyProductFormController implements Initializable {
      * @param actionEvent save button clicked event
      */
     @FXML
-    private void saveProductUpdate(ActionEvent actionEvent) {
-        Product newProduct = validateAndBuildProductToAdd();
-        if (newProduct != null) {
-            int index = -1;
-            for (Product prod : Inventory.getAllProducts()) {
-                index++;
-                if (thisProduct.getId() == newProduct.getId()){
-                    Inventory.getAllProducts().set(index, newProduct);
-                    try {
-                        cancelProductUpdate(actionEvent);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+    private void saveProductModify(ActionEvent actionEvent) throws IOException {
+        if (!tfModPartInv.getText().isEmpty() && !tfModPartName.getText().isEmpty() &&
+        !tfModPartMin.getText().isEmpty() && !tfModPartMax.getText().isEmpty() &&
+        !tfModPartPrice.getText().isEmpty()){
+            Product newProduct = validateAndBuildProductToAdd();
+            if (newProduct != null) {
+                int index = -1;
+                for (Product prod : Inventory.getAllProducts()) {
+                    index++;
+                    if (prod.getId() == newProduct.getId()) {
+                        Inventory.getAllProducts().set(index, newProduct);
+                        cancelProductModify(actionEvent);
                     }
-                    break;
                 }
             }
+        }else{
+            //alert user
+            showAlertDialog(1);
         }
+
     }
 
     /**
@@ -175,13 +185,17 @@ public class ModifyProductFormController implements Initializable {
      * @throws IOException error when load method fails
      */
     @FXML
-    private void cancelProductUpdate(ActionEvent actionEvent) throws IOException {
+    private void cancelProductModify(ActionEvent actionEvent) throws IOException {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
-        scene   = FXMLLoader.load(getClass().getResource("AddProductForm.fxml"));
+        scene   = FXMLLoader.load(getClass().getResource("MainForm.fxml"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
 
+    /**
+     * Remove part associated with product being constructed
+     * @param actionEvent remove button click event
+     */
     @FXML
     private void removeAssociatedPart(ActionEvent actionEvent) {
         if (tblvPartsList.getSelectionModel().getSelectedItem() != null ) {
@@ -198,16 +212,24 @@ public class ModifyProductFormController implements Initializable {
         }
     }
 
+    /**
+     * Add the selected item to the product being constructed.
+     * @param actionEvent add button click event
+     */
     @FXML
     private void addPartToProduct(ActionEvent actionEvent) {
         if (tblvPartsSearch.getSelectionModel().getSelectedItem() != null) {
-            associatedParts.add((Part) tblvPartsSearch.getSelectionModel().getSelectedItem());
+            associatedParts.add(tblvPartsSearch.getSelectionModel().getSelectedItem());
         } else {
             //Alert User to select part
             showAlertDialog(3);
         }
     }
 
+    /**
+     * Validates user input and constructs new product object
+     * @return newly constructed product object to replace selected object
+     */
     private Product validateAndBuildProductToAdd() {
         //ID does not need inout validation as it is not input by user
         if (!(Integer.parseInt(tfModPartMin.getText()) >= Integer.parseInt(tfModPartInv.getText())) &&
@@ -218,10 +240,10 @@ public class ModifyProductFormController implements Initializable {
         }
         int id = Integer.parseInt(tfModPartID.getText());
         String name = tfModPartName.getText();
-        double price = 0.0;
-        int inv = 0;
-        int min = 0;
-        int max = 0;
+        double price;
+        int inv;
+        int min;
+        int max;
 
         //Catch invalid numerical input by user
         try {
@@ -237,41 +259,46 @@ public class ModifyProductFormController implements Initializable {
 
         return new Product(associatedParts, id, name, price, inv, min, max);
     }
+
+    /**
+     * Display appropriate alert message to user contingent upon input
+     * @param alertType integer indicating the alert to display
+     */
     private void showAlertDialog(int alertType) {
         //Create new alert
         Alert anAlert = new Alert(Alert.AlertType.ERROR);
         //Use switch statement to populate dialog box and display
         switch (alertType) {
-            case 1:
+            case 1 -> {
                 anAlert.setTitle("Invalid Input Error");
                 anAlert.setHeaderText("Error while attempting to modify product!");
                 anAlert.setContentText("Please verify all inputs and resubmit modified product.");
                 anAlert.showAndWait();
-                break;
-            case 2:
+            }
+            case 2 -> {
                 anAlert.setTitle("Invalid Inventory Error");
                 anAlert.setHeaderText("Error while attempting to modify product!");
                 anAlert.setContentText("Please verify all inventory inputs and resubmit modified product.");
                 anAlert.showAndWait();
-                break;
-            case 3:
+            }
+            case 3 -> {
                 anAlert.setTitle("Invalid Selection Error");
                 anAlert.setHeaderText("Error while attempting to modify product!");
                 anAlert.setContentText("Please select part to add to product.");
                 anAlert.showAndWait();
-                break;
-            case 4:
+            }
+            case 4 -> {
                 anAlert.setTitle("Invalid Selection Error");
                 anAlert.setHeaderText("Error while attempting to modify product!");
                 anAlert.setContentText("Please select part to remove from product.");
                 anAlert.showAndWait();
-                break;
-            case 5:
+            }
+            case 5 -> {
                 anAlert.setTitle("Search Error");
                 anAlert.setHeaderText("Error while attempting a search!");
                 anAlert.setContentText("The search criteria yielded no results.");
                 anAlert.showAndWait();
-                break;
+            }
         }
     }
 }

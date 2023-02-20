@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"io.casinelli.inventoryproject","l":"io.casinelli.inventoryproject"},{"m":"io.casinelli.inventoryproject","l":"io.casinelli.inventoryproject.Model"}];updateSearchResults();

@@ -8,38 +8,35 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Class used to implement javaFX scene capable of modifying a part
+ * in the inventory.
+ */
 public class ModifyPartFormController implements Initializable {
     //class variables
     Stage thisStage;
     Parent scene;
     Part selectedPart;
 
-    //Variable to pass index of object to modify
-    private int index;
-    //Index getter
-    public int getIndex() {
-        return index;
-    }
-    //Index setter
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
     /**
      * Initializes the text fields using the part stared in the MainForm static field
-     * @param url
-     * @param resourceBundle
+     * @param url The location used to resolve relative paths for the
+     *            root object, or null if the location is not known.
+     *            This is not used in this implementation.
+     * @param resourceBundle The resources used to localize the root
+     *                       object, or null if the root object was
+     *                       not localized. This is not used in this
+     *                       implementation.
+
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -97,9 +94,8 @@ public class ModifyPartFormController implements Initializable {
 
 
     /**
-     * Loads teh MainForm scene
-     * @param actionEvent cancel button pushed
-     * @throws IOException when the FXMLLoader object's load() method fails to load teh next scene
+     * Ends part modification and loads the MainForm scene
+     * @param actionEvent cancel button click event
      */
     @FXML
     private void cancelPartMod(ActionEvent actionEvent) {
@@ -115,7 +111,7 @@ public class ModifyPartFormController implements Initializable {
 
     /**
      * Replaces the part that has the ID matching the originally loaded part
-     * @param actionEvent save button clicked
+     * @param actionEvent save button click event
      */
     @FXML
     private void saveModPart(ActionEvent actionEvent) {
@@ -137,7 +133,7 @@ public class ModifyPartFormController implements Initializable {
 
     /**
      * Handles switching the user interface items when the radio button is changed
-     * @param actionEvent radio button toggled
+     * @param actionEvent radio button toggle event
      */
     @FXML
     private void switchLabelText(ActionEvent actionEvent) {
@@ -150,7 +146,7 @@ public class ModifyPartFormController implements Initializable {
 
 
     /**
-     * validates user input and creates a new part instance to replace the existing one
+     * Validates user input and creates a new part instance to replace the existing one
      * @return Part to replace the existing one in the inventory ArrayList
      */
     private Part validateAndBuildPartToAdd() {
@@ -163,9 +159,9 @@ public class ModifyPartFormController implements Initializable {
         }
         int id = Integer.parseInt(tfPartModID.getText());
         String name = tfPartModName.getText();
-        double price = 0.0;
-        int inv =0;
-        int min =0;
+        double price;
+        int inv;
+        int min = 0;
         int max = 0;
         String radio = tfPartModSwitch.getText();
         //Catch invalid numerical input by user
@@ -197,7 +193,8 @@ public class ModifyPartFormController implements Initializable {
 
     /**
      * Display appropriate alert message to user contingent upon input
-     * @param alertType type of alert message to display
+     * @param alertType integer indicating which type of alert message
+     *                  to display
      */
     //Alert Boxes
     private void showAlertDialog(int alertType) {
@@ -205,19 +202,18 @@ public class ModifyPartFormController implements Initializable {
         Alert anAlert = new Alert(Alert.AlertType.ERROR);
         //Use switch statement to populate dialog box and display
         switch (alertType) {
-            case 1:
+            case 1 -> {
                 anAlert.setTitle("Invalid Input Error");
                 anAlert.setHeaderText("Error while attempting to add new part!");
                 anAlert.setContentText("Please verify all inputs and resubmit new part.");
                 anAlert.showAndWait();
-                break;
-            case 2:
+            }
+            case 2 -> {
                 anAlert.setTitle("Invalid Inventory Error");
                 anAlert.setHeaderText("Error while attempting to add new part!");
                 anAlert.setContentText("Please verify all inventory inputs and resubmit new part.");
                 anAlert.showAndWait();
-                break;
-
+            }
         }
     }
 }

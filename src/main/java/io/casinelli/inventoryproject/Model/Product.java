@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 /**
  * Product to store data used by inventory application
  * @author Louis Casinelli Jr
+ * @version 1.00
  */
 public class Product{
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();

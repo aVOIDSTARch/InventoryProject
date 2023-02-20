@@ -20,6 +20,9 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ *
+ */
 public class AddProductFormController implements Initializable {
 
     Stage thisStage;
@@ -29,8 +32,14 @@ public class AddProductFormController implements Initializable {
     ObservableList<Part> associatedParts = FXCollections.observableArrayList();
 
     /**
-     * @param url
-     * @param resourceBundle
+     * @param url The location used to resolve relative paths for the
+     *            root object, or null if the location is not known.
+     *            This is not used in this implementation.
+     * @param resourceBundle The resources used to localize the root
+     *                       object, or null if the root object was
+     *                       not localized. This is not used in this
+     *                       implementation.
+dle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -53,23 +62,23 @@ public class AddProductFormController implements Initializable {
     }
 
 
-
-
-
-    @FXML
-    private TextField tfPartSearch;
+    //TableViews
     @FXML
     private TableView tblvPartsSearch;
     @FXML
     private TableView tblvPartsList;
+    //Buttons
     @FXML
     private Button btnAddPartToProduct;
     @FXML
     private Button btnRemoveAssociatedPart;
     @FXML
-    private Button btnCancelModify;
+    private Button btnCancelAddProduct;
     @FXML
-    private Button btnSaveUpdatedProduct;
+    private Button btnSaveProduct;
+    //Text-field
+    @FXML
+    private TextField tfPartSearch;
     @FXML
     private TextField tfAddPartID;
     @FXML
@@ -82,6 +91,7 @@ public class AddProductFormController implements Initializable {
     private TextField tfAddPartMax;
     @FXML
     private TextField tfAddPartMin;
+    //Columns for associated parts TableVIew
     @FXML
     private TableColumn colAssocPartPrice;
     @FXML
@@ -90,6 +100,7 @@ public class AddProductFormController implements Initializable {
     private TableColumn colAssocPartName;
     @FXML
     private TableColumn colAssocPartID;
+    //Columns for available parts TableVIew
     @FXML
     private TableColumn colPriceSearch;
     @FXML
@@ -99,6 +110,10 @@ public class AddProductFormController implements Initializable {
     @FXML
     private TableColumn colPartIDSearch;
 
+    /**
+     * Search in available products TableView
+     * @param actionEvent text-field changed event
+     */
     @FXML
     private void searchPartsInProduct(ActionEvent actionEvent) {
             ObservableList<Part> resultsList = FXCollections.observableArrayList();
@@ -111,11 +126,9 @@ public class AddProductFormController implements Initializable {
             }
             //Add all matches of a number and an ID that are not already in the list
             for (Part part : Inventory.getAllParts()) {
-                if (resultsList.contains(part)) {
-                    continue;
-                } else if (String.valueOf(part.getId()).contains(searchText)) {
+              if (String.valueOf(part.getId()).contains(searchText)) {
                     resultsList.add(part);
-                }
+              }
             }
             //Search returned no results
             if (resultsList.isEmpty()) {
@@ -129,16 +142,24 @@ public class AddProductFormController implements Initializable {
 
     }
 
+    /**
+     * Add the selected item to the product being constructed.
+     * @param actionEvent add button click event
+     */
     @FXML
     private void addPartToProduct(ActionEvent actionEvent) {
         if (tblvPartsSearch.getSelectionModel().getSelectedItem() != null) {
             associatedParts.add((Part) tblvPartsSearch.getSelectionModel().getSelectedItem());
         } else {
-                //Alert User to select part
+                showAlertDialog(3);
         }
 
     }
 
+    /**
+     * Remove part associated with product being constructed
+     * @param actionEvent remove button click event
+     */
     @FXML
     private void removeAssociatedPart(ActionEvent actionEvent) {
         if (tblvPartsList.getSelectionModel().getSelectedItem() != null ) {
@@ -155,27 +176,41 @@ public class AddProductFormController implements Initializable {
         }
     }
 
+    /**
+     * Cancel Product construction and return to MainForm scene
+     * @param actionEvent cancel button click event
+     * @throws IOException error occurs when FXMLLoader object fails to locate
+     *                     or load teh appropriate FXML document
+     */
     @FXML
-    private void cancelProductUpdate(ActionEvent actionEvent) throws IOException {
+    private void cancelAddProduct(ActionEvent actionEvent) throws IOException {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         scene   = FXMLLoader.load(getClass().getResource("MainForm.fxml"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
 
+    /**
+     * Save newly constructed product to inventory
+     * @param actionEvent save button click event
+     */
     @FXML
-    private void saveProductUpdate(ActionEvent actionEvent) {
+    private void saveProduct(ActionEvent actionEvent) {
         Product newProduct = validateAndBuildProductToAdd();
         if (newProduct != null) {
             Inventory.addProduct(newProduct);
             try {
-                cancelProductUpdate(actionEvent);
+                cancelAddProduct(actionEvent);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
+    /**
+     * Validates user input and constructs new product object
+     * @return newly constructed product object
+     */
     private Product validateAndBuildProductToAdd() {
         //ID does not need inout validation as it is not input by user
         if (!(Integer.parseInt(tfAddPartMin.getText()) >= Integer.parseInt(tfAddPartInv.getText())) &&
@@ -205,6 +240,10 @@ public class AddProductFormController implements Initializable {
 
         return new Product(associatedParts, id, name, price, inv, min, max);
     }
+    /**
+     * Display appropriate alert message to user contingent upon input
+     * @param alertType integer indicating the alert to display
+     */
     private void showAlertDialog(int alertType) {
         //Create new alert
         Alert anAlert = new Alert(Alert.AlertType.ERROR);
@@ -242,5 +281,4 @@ public class AddProductFormController implements Initializable {
                 break;
         }
     }
-
 }

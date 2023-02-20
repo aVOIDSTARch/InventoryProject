@@ -10,18 +10,22 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.*;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Scene provided to user for input at launch. Provides access to inventory
+ * management capabilities and allows access to all four other scenes in
+ * application
+ */
 public class MainFormController implements Initializable {
 
     //Controller instance variables
@@ -48,7 +52,7 @@ public class MainFormController implements Initializable {
      * @param selectedPart Part selected in the Parts tableview control
      */
     public void setSelectedPart(Part selectedPart) {
-        this.selectedPart = selectedPart;
+        MainFormController.selectedPart = selectedPart;
     }
 
     //Selected Product
@@ -65,18 +69,21 @@ public class MainFormController implements Initializable {
     }
     /**
      * Stores the selected product from the Products tableview control
-     * @param selectedProduct Product selected in the Products tableview control
+     * @param thisSelectedProduct Product selected in the Products tableview control
      */
-    public void setSelectedProduct(Product selectedProduct) {
-        this.selectedProduct = selectedProduct;
+    public static void setSelectedProduct(Product thisSelectedProduct) {
+        selectedProduct = thisSelectedProduct;
     }
-
-
 
     /**
      * Initializes the scene interface for MainForm.fxml
-     * @param url
-     * @param resourceBundle
+     * @param url The location used to resolve relative paths for the
+     *            root object, or null if the location is not known.
+     *            This is not used in this implementation.
+     * @param resourceBundle The resources used to localize the root
+     *                       object, or null if the root object was
+     *                       not localized.This is not used in this
+     *                       implementation.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -144,7 +151,7 @@ public class MainFormController implements Initializable {
 
     /**
      * Exits the program
-     * @param actionEvent
+     * @param actionEvent exit button click event
      */
     @FXML
     private void exitProgram(ActionEvent actionEvent) {
@@ -181,13 +188,14 @@ public class MainFormController implements Initializable {
 
     /**
      * Stores selected part and changes to the ModifyPart scene
-     *
+     * <p>
      * RUNTIME ERROR - a run time error was corrected in this method.  The error
      * was a NullPointerException, and it was corrected by ensuing the correct
      * path to the FXML document resource was provided to the load method.
      *
      * @param actionEvent Modify button in t parts controls clicked
-     * @throws IOException the FXMLLoader load() function may fail
+     * @throws IOException error occurs when FXMLLoader object fails to locate
+     * or load teh appropriate FXML document
      */
     @FXML
     private void modifySelectedProduct(ActionEvent actionEvent) throws IOException {
@@ -209,7 +217,8 @@ public class MainFormController implements Initializable {
     /**
      * Changes the scene to the AddProduct scene
      * @param actionEvent add button in the product controls area clicked
-     * @throws IOException
+     * @throws IOException error occurs when FXMLLoader object fails to locate
+     * or load teh appropriate FXML document
      */
     @FXML
     private void addNewProduct(ActionEvent actionEvent) throws IOException {
@@ -244,7 +253,8 @@ public class MainFormController implements Initializable {
     /**
      * Sets the selected part for the ModifyPartForm to load and loads the ModifyPart scene
      * @param actionEvent modify part button clicked
-     * @throws IOException when the FXMLLoader object's load() method fails to load the new scene
+     * @throws IOException error occurs when FXMLLoader object fails to locate
+     * or load teh appropriate FXML document
      */
     @FXML
     private void modifySelectedPart(ActionEvent actionEvent) throws IOException {
@@ -265,7 +275,8 @@ public class MainFormController implements Initializable {
     /**
      * Loads the AddPartForm scene
      * @param actionEvent add part button clicked
-     * @throws IOException when the FXMLLoader object's load() method fails to load the new scene
+     * @throws IOException error occurs when FXMLLoader object fails to locate
+     * or load teh appropriate FXML document
      */
     @FXML
     private void addNewPart(ActionEvent actionEvent) throws IOException {
@@ -278,7 +289,7 @@ public class MainFormController implements Initializable {
     /**
      * Searches the Product ArrayList for the ID or Name in the input field
      * @param actionEvent search field contains input and return is pressed
-     * @return
+     * @return boolean indicating search success
      */
     @FXML
     private boolean searchProdMain(ActionEvent actionEvent) {
@@ -292,9 +303,7 @@ public class MainFormController implements Initializable {
         }
         //Add all matches of a number and an ID that are not already in the list
         for (Product prod : Inventory.getAllProducts()) {
-            if (resultsList.contains(prod)) {
-                continue;
-            } else if (String.valueOf(prod.getId()).contains(searchText)) {
+            if (String.valueOf(prod.getId()).contains(searchText)) {
                 resultsList.add(prod);
             }
         }
@@ -329,9 +338,7 @@ public class MainFormController implements Initializable {
         }
         //Add all matches of a number and an ID that are not already in the list
         for (Part part : Inventory.getAllParts()) {
-            if (resultsList.contains(part)) {
-                continue;
-            } else if (String.valueOf(part.getId()).contains(searchText)) {
+            if (String.valueOf(part.getId()).contains(searchText)) {
                 resultsList.add(part);
             }
         }
@@ -358,31 +365,31 @@ public class MainFormController implements Initializable {
         Alert anAlert = new Alert(Alert.AlertType.ERROR);
         //Use switch statement to populate dialog box and display
         switch (alertType) {
-            case 1:
+            case 1 -> {
                 anAlert.setTitle("Selection Error");
                 anAlert.setHeaderText("Error while attempting to modify!");
                 anAlert.setContentText("Please select an item from the list above before clicking the Modify button.");
                 anAlert.showAndWait();
-                break;
-            case 2:
+            }
+            case 2 -> {
                 anAlert.setTitle("Selection Error");
                 anAlert.setHeaderText("Error while attempting to delete!");
                 anAlert.setContentText("Please select an item from the list above before clicking the Delete button.");
                 anAlert.showAndWait();
-                break;
-            case 3:
+            }
+            case 3 -> {
                 anAlert.setTitle("Search Error");
                 anAlert.setHeaderText("Error while attempting a search!");
                 anAlert.setContentText("The search criteria yielded no results.");
                 anAlert.showAndWait();
-                break;
-            case 4:
+            }
+            case 4 -> {
                 anAlert.setTitle("Deletion Error");
                 anAlert.setHeaderText("Error while attempting to delete product!");
                 anAlert.setContentText("This product has associated parts. Please remove ALL parts " +
                         "and attempt deletion again.");
                 anAlert.showAndWait();
-                break;
+            }
         }
     }
 

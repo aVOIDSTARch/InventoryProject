@@ -38,6 +38,9 @@ public class Main extends Application {
         });
     }
 
+    /**
+     * Javadoc folder /InventoryProject/src/main/java/JavaDoc-Documentation
+     */
     public static void main(String[] args) {
         // Create data to initialize app//
         //Create necessary parts

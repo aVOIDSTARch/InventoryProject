@@ -4,6 +4,7 @@ package io.casinelli.inventoryproject.Model;
  *  Inventory Object to contain all parts and products on hand and
  *  provide access to appropriate data
  *  @author Louis Casinelli Jr
+ *  @version 1.00
  */
 
 
