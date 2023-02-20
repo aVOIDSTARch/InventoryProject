@@ -232,8 +232,9 @@ public class ModifyProductFormController implements Initializable {
      */
     private Product validateAndBuildProductToAdd() {
         //ID does not need inout validation as it is not input by user
-        if (!(Integer.parseInt(tfModPartMin.getText()) >= Integer.parseInt(tfModPartInv.getText())) &&
-                !(Integer.parseInt(tfModPartInv.getText()) <= Integer.parseInt(tfModPartMax.getText()))) {
+        if ((Integer.parseInt(tfModPartMin.getText()) > Integer.parseInt(tfModPartInv.getText())) ||
+                (Integer.parseInt(tfModPartInv.getText()) > Integer.parseInt(tfModPartMax.getText())) ||
+                (Integer.parseInt(tfModPartMax.getText()) < Integer.parseInt(tfModPartMin.getText()))) {
             //alertUser - alert 2
             showAlertDialog(2);
             return null;

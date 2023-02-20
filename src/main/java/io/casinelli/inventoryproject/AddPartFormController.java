@@ -123,8 +123,9 @@ public class AddPartFormController implements Initializable {
      */
     private Part validateAndBuildPartToAdd() {
         //ID does not need inout validation as it is not input by user
-        if (!(Integer.parseInt(tfPartAddMin.getText()) >= Integer.parseInt(tfPartAddInv.getText())) &&
-                !(Integer.parseInt(tfPartAddInv.getText()) <= Integer.parseInt(tfPartAddMax.getText()))){
+        if ((Integer.parseInt(tfPartAddMin.getText()) > Integer.parseInt(tfPartAddInv.getText())) ||
+                (Integer.parseInt(tfPartAddInv.getText()) > Integer.parseInt(tfPartAddMax.getText())) ||
+        (Integer.parseInt(tfPartAddMax.getText()) < Integer.parseInt(tfPartAddMin.getText()))){
             //alertUser
             showAlertDialog(2);
             return null;

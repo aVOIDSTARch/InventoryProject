@@ -151,8 +151,9 @@ public class ModifyPartFormController implements Initializable {
      */
     private Part validateAndBuildPartToAdd() {
         //ID does not need inout validation as it is not input by user
-        if (!(Integer.parseInt(tfPartModMin.getText()) >= Integer.parseInt(tfPartModInv.getText())) &&
-                !(Integer.parseInt(tfPartModInv.getText()) <= Integer.parseInt(tfPartModMax.getText()))){
+        if ((Integer.parseInt(tfPartModMin.getText()) > Integer.parseInt(tfPartModInv.getText())) ||
+                (Integer.parseInt(tfPartModInv.getText()) > Integer.parseInt(tfPartModMax.getText())) ||
+                (Integer.parseInt(tfPartModMax.getText()) < Integer.parseInt(tfPartModMin.getText()))){
             //alertUser
             showAlertDialog(2);
             return null;

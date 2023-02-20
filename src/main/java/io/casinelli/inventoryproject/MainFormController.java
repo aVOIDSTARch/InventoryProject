@@ -25,6 +25,10 @@ import java.util.ResourceBundle;
  * Scene provided to user for input at launch. Provides access to inventory
  * management capabilities and allows access to all four other scenes in
  * application
+ * <p>
+ * RUNTIME ERROR - a run time error was corrected in this method.  The error
+ * was a NullPointerException, and it was corrected by ensuing the correct
+ * path to the FXML document resource was provided to the load method as seen in the modifySelectedProduct method below.
  */
 public class MainFormController implements Initializable {
 
@@ -164,9 +168,9 @@ public class MainFormController implements Initializable {
      */
     @FXML
     private void deleteSelectedProduct(ActionEvent actionEvent) {
-        if (tblvwMainProd.getSelectionModel().getSelectedItem().getAssociatedParts().isEmpty()) {
-            if (tblvwMainProd.getSelectionModel().getSelectedItem() != null ) {
-
+            Product prod = tblvwMainProd.getSelectionModel().getSelectedItem();
+            if ( prod != null ) {
+                if (prod.getAssociatedParts().isEmpty()) {
                 Alert newAlert = new Alert(Alert.AlertType.CONFIRMATION);
                 newAlert.setTitle("Confirm");
                 newAlert.setContentText("Are you sure you want to delete the selected product?");
@@ -177,22 +181,17 @@ public class MainFormController implements Initializable {
                     Inventory.getAllProducts().remove(selectedIndex);
                 }
             }else {
-                showAlertDialog(2);
+                showAlertDialog(4);
             }
         } else {
             //alert parts associated with product
-            showAlertDialog(4);
+            showAlertDialog(2);
         }
 
     }
 
     /**
      * Stores selected part and changes to the ModifyPart scene
-     * <p>
-     * RUNTIME ERROR - a run time error was corrected in this method.  The error
-     * was a NullPointerException, and it was corrected by ensuing the correct
-     * path to the FXML document resource was provided to the load method.
-     *
      * @param actionEvent Modify button in t parts controls clicked
      * @throws IOException error occurs when FXMLLoader object fails to locate
      * or load teh appropriate FXML document

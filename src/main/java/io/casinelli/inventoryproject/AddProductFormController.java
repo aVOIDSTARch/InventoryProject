@@ -196,6 +196,9 @@ dle
      */
     @FXML
     private void saveProduct(ActionEvent actionEvent) {
+        if (!tfAddPartInv.getText().isEmpty() && !tfAddPartName.getText().isEmpty() &&
+                !tfAddPartMin.getText().isEmpty() && !tfAddPartMax.getText().isEmpty() &&
+                !tfAddPartPrice.getText().isEmpty()){
         Product newProduct = validateAndBuildProductToAdd();
         if (newProduct != null) {
             Inventory.addProduct(newProduct);
@@ -205,6 +208,10 @@ dle
                 throw new RuntimeException(e);
             }
         }
+    } else {
+            //Alert User
+            showAlertDialog(1);
+        }
     }
 
     /**
@@ -213,8 +220,9 @@ dle
      */
     private Product validateAndBuildProductToAdd() {
         //ID does not need inout validation as it is not input by user
-        if (!(Integer.parseInt(tfAddPartMin.getText()) >= Integer.parseInt(tfAddPartInv.getText())) &&
-                !(Integer.parseInt(tfAddPartInv.getText()) <= Integer.parseInt(tfAddPartMax.getText()))) {
+        if ((Integer.parseInt(tfAddPartMin.getText()) > Integer.parseInt(tfAddPartInv.getText())) ||
+                (Integer.parseInt(tfAddPartInv.getText()) > Integer.parseInt(tfAddPartMax.getText())) ||
+                (Integer.parseInt(tfAddPartMax.getText()) < Integer.parseInt(tfAddPartMin.getText()))) {
             //alertUser
             showAlertDialog(2);
             return null;
